@@ -18,14 +18,26 @@ public record Point(double x, double y) implements Shape {
     }
 
     //P и S
-    @Override public double perimeter() { return 0; }
+    @Override
+    public double perimeter() {
+        return 0;
+    }
 
-    @Override public double area() { return 0; }
+    @Override
+    public double area() {
+        return 0;
+    }
 
-    @Override public BoundingBox boundingBox() { return new BoundingBox(x, y, x, y); }
+    @Override
+    public BoundingBox boundingBox() {
+        return new BoundingBox(x, y, x, y);
+    }
 
     //сдвиг точки
-    @Override public Point translate(double dx, double dy) { return new Point(x + dx, y + dy); }
+    @Override
+    public Point translate(double dx, double dy) {
+        return new Point(x + dx, y + dy);
+    }
 
     //поворот точки
     @Override
@@ -42,4 +54,8 @@ public record Point(double x, double y) implements Shape {
         return new Point(center.x + (x - center.x) * factor, center.y + (y - center.y) * factor);
     }
 
-    @Override public boolean contains(Point p) { return distanceTo(p) <= Geometry.EPS; }
+    @Override
+    public boolean contains(Point p) {
+        return distanceTo(p) <= Geometry.EPS;
+    }
+}
