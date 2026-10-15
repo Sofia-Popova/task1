@@ -1,5 +1,11 @@
 package figures;
 
+/**
+ * Класс точки с координатами x и y.
+ * Позволяет находить расстояние между точками, перемещать,
+ * поворачивать и масштабировать точку, а также проверять,
+ * совпадает ли она с другой точкой.
+ */
 public record Point(double x, double y) implements Shape {
 
     public static final Point ORIGIN = new Point(0, 0); //готовая точка

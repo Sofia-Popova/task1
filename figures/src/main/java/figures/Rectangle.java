@@ -3,6 +3,11 @@ package figures;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Класс прямоугольника с заданным центром, шириной, высотой и углом поворота.
+ * Проверяет правильность заданных значений, позволяет создавать прямоугольник
+ * со сторонами, параллельными осям координат, и получать координаты его вершин.
+ */
 public record Rectangle(Point center, double width, double height, double angle)
         implements Shape {
 
@@ -32,5 +37,62 @@ public record Rectangle(Point center, double width, double height, double angle)
                 new Point(center.x() + hx, center.y() - hy).rotate(angle, center),
                 new Point(center.x() + hx, center.y() + hy).rotate(angle, center),
                 new Point(center.x() - hx, center.y() + hy).rotate(angle, center));
+    }
+    @Override
+    public double perimeter() {
+        return 2 * (width + height);
+    }
+
+    @Override
+    public double area() {
+        return width * height;
+    }
+
+    @Override
+    public BoundingBox boundingBox() {
+        double minX = Double.POSITIVE_INFINITY;
+        double minY = Double.POSITIVE_INFINITY;
+        double maxX = Double.NEGATIVE_INFINITY;
+        double maxY = Double.NEGATIVE_INFINITY;
+
+        for (Point p : corners()) {
+            minX = Math.min(minX, p.x());
+            minY = Math.min(minY, p.y());
+            maxX = Math.max(maxX, p.x());
+            maxY = Math.max(maxY, p.y());
+        }
+
+        return new BoundingBox(minX, minY, maxX, maxY);
+    }
+
+    @Override
+    public Rectangle translate(double dx, double dy) {
+        return new Rectangle(center.translate(dx, dy), width, height, angle);
+    }
+
+    @Override
+    public Rectangle rotate(double angle, Point pivot) {
+        return new Rectangle(center.rotate(angle, pivot), width, height, this.angle + angle);
+    }
+
+    @Override
+    public Rectangle scale(double factor, Point center) {
+        Geometry.requireFactor(factor);
+        return new Rectangle(
+                this.center.scale(factor, center),
+                width * factor,
+                height * factor,
+                angle
+        );
+    }
+
+    @Override
+    public boolean contains(Point p) {
+        Point local = p.rotate(-angle, center);
+
+        return local.x() >= center.x() - width / 2 - Geometry.EPS
+                && local.x() <= center.x() + width / 2 + Geometry.EPS
+                && local.y() >= center.y() - height / 2 - Geometry.EPS
+                && local.y() <= center.y() + height / 2 + Geometry.EPS;
     }
 }

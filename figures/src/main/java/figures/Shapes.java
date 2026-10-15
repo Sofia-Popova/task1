@@ -5,7 +5,12 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * Вспомогательный класс для работы с геометрическими фигурами.
+ * Позволяет определять тип фигуры, выводить её описание,
+ * раскрывать группы фигур, определять глубину вложенности
+ * и подсчитывать количество фигур каждого типа.
+ */
 public final class Shapes {
 
     private Shapes() { }
